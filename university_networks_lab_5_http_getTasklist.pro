@@ -1,17 +1,24 @@
-QT       += core network
+QT += core gui network
 
-CONFIG += console
-
-TARGET = university_networks_lab_5_http_getTasklist
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TEMPLATE = app
 
+TARGET = university_networks_lab_5_http_getTasklist
+
+CONFIG -= console
+
 SOURCES += main.cpp \
     ts_system.cpp \
-    ts_network.cpp
+    ts_network.cpp \
+    mainwindow.cpp
 
 HEADERS += \
     ts_system.h \
-    ts_network.h
+    ts_network.h \
+    mainwindow.h
 
-FORMS +=
+FORMS += \
+    mainwindow.ui
+
+LIBS += -lSetupapi -lpsapi

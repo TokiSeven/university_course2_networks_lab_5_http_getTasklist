@@ -1,11 +1,11 @@
-#include "ts_network.h"
-#include <stdio.h>
+#include <QApplication>
+#include "mainwindow.h"
 
-int main()
+int main(int argc, char *argv[])
 {
-    setlocale(LC_ALL, "RUS");
+    QApplication a(argc, argv);
+    MainWindow w;
+    w.show();
 
-    TS_Network net;
-
-    return 0;
+    return a.exec();
 }
