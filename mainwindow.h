@@ -17,9 +17,11 @@ public:
     ~MainWindow();
 
 protected slots:
+    //print processes from TS_System (inside TS_network) on the window
     void slot_update();
 
 private:
+    //TS_Network - QTcpServer
     TS_Network *net;
     Ui::MainWindow *ui;
 };

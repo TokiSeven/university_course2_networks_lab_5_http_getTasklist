@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QTimer>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -11,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->net = new TS_Network(this);
     this->net->slot_start();
 
-    QTimer::singleShot(3000, this, SLOT(slot_update()));
+    slot_update();
 }
 
 MainWindow::~MainWindow()
@@ -21,5 +20,15 @@ MainWindow::~MainWindow()
 
 void MainWindow::slot_update()
 {
-    this->ui->listWidget->addItem(QString::fromStdString(this->net->getSystem()->getData().toStdString()));
+    QString str;
+    for (int i = 0; i < this->net->getSystem()->getAllProcessList().size(); i++)
+    {
+        str = "PID: "
+                + QString::number(this->net->getSystem()->getAllProcessList()[i].PID)
+                + " NAME: "
+                + this->net->getSystem()->getAllProcessList()[i].name
+                + " MEMORY:"
+                + QString::number(this->net->getSystem()->getAllProcessList()[i].memory);
+        this->ui->listWidget->addItem(str);
+    }
 }

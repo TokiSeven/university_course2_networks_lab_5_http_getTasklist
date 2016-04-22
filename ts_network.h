@@ -9,37 +9,49 @@
 #include "ts_system.h"
 #include <QMap>
 
-struct CLIENT
-{
-    QTcpSocket *soc;
-    quint16 size = 0;
-};
-
 class TS_Network : public QObject
 {
     Q_OBJECT
 public:
     TS_Network(QObject* parent = 0);
 
-    inline bool getWorking(){return this->isWorking;}
+    //if server listening - true
+    inline bool getStatus(){return this->status;}
+
+    //return TS_Sytem
     inline TS_System* getSystem()const{return this->sys;}
 
 public slots:
+    //start listen (server)
     void slot_start();
 
-signals:
-    void signal_closed();
-
 private slots:
+    //when message has coming
     void slotReadClient();
+
+    //when opened new connection
     void newuser();
+
+    //when client disconnect or server must do it
     void deleteuser();
 
 private:
+    //generate one QString from QList of processes (from TS_System)
+    QString generateStringFromList();
+
+    //DB of clients (connected)
     QMap<int, QTcpSocket*> SClients;
-    bool isWorking;
+
+    //status of the server
+    bool status;
+
+    //generate full html page with headers
     QString generateHTML(QString);
+
+    //QTcpServer for listening clients
     QTcpServer *serv;
+
+    //in TS_System will be processes
     TS_System *sys;
 };
 

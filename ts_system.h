@@ -1,33 +1,37 @@
 #ifndef TS_SYSTEM_H
 #define TS_SYSTEM_H
 
-#include <QObject>
+#include <windows.h>
+#include <w32api.h>
+#include <tlhelp32.h>
+
+#include <QMap>
 #include <QString>
-#include <QByteArray>
-#include <QDebug>
+#include <QMessageBox>
 
-class TS_System : public QObject
+//TS_Process - ministructure for store one process (name, used memory, PID)
+struct TS_Process
 {
-    Q_OBJECT
-public:
-    explicit TS_System(QString cmd = "tasklist", QObject *parent = 0);
-    void createIndex();
-
-    QByteArray getData()const{return this->data;}
-
-public slots:
-    void slot_createIndex();
-
-protected:
-    void private_createIndex();
-
-private:
-    void readData();
-    void getInfoIntoFile();
-
-    QString filename;
-    QString command;
-    QByteArray data;
+    QString name;
+    SIZE_T memory;
+    int PID;
 };
 
-#endif // TS_PROCESS_TASKLIST_H
+class TS_System
+{
+public:
+    //Here there are get all processes
+    TS_System();
+
+    //return all processes in QList<TS_Process>
+    QList<TS_Process> getAllProcessList();
+private:
+    //there is a DB for store all process (int - 32PID)
+    QMap<int, TS_Process> win32sysMap;
+
+    //modify WCHAR to QString (name of process)
+    QString copyToQString(WCHAR array[MAX_PATH]);
+
+};
+
+#endif // TS_SYSTEM_H

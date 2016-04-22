@@ -9,14 +9,14 @@ TARGET = university_networks_lab_5_http_getTasklist
 CONFIG -= console
 
 SOURCES += main.cpp \
-    ts_system.cpp \
+    mainwindow.cpp \
     ts_network.cpp \
-    mainwindow.cpp
+    ts_system.cpp
 
 HEADERS += \
-    ts_system.h \
+    mainwindow.h \
     ts_network.h \
-    mainwindow.h
+    ts_system.h
 
 FORMS += \
     mainwindow.ui
